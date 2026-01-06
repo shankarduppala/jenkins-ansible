@@ -19,7 +19,7 @@ pipeline {
 
         stage('run nginx playbook on node agent') {
             steps {
-                bat 'ansible-playbook -i %ANSIBLE_INVENTORY%' %ANSIBLE_PLAYBOOK%
+                sh "ansible-playbook -i %ANSIBLE_INVENTORy %ANSIBLE_PLAYBOOK%"
             }
         }
     }
