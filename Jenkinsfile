@@ -11,7 +11,8 @@ pipeline {
         stage('checkout SCM') {
             steps {
                 git branch: 'main',
-                url: https://github.com/shankarduppala/jenkins-ansible.git
+                url: 'https://github.com/shankarduppala/jenkins-ansible.git'
+                credentialsId: 'Git-Creds'
 
             }
         }
