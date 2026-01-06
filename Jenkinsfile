@@ -8,7 +8,6 @@ pipeline {
 
     stages {
         stage('Checkout SCM') {
-            agent { label 'windows-master' } // runs on Jenkins master (Windows)
             steps {
                 git branch: 'main',
                     url: 'https://github.com/shankarduppala/jenkins-ansible.git',
