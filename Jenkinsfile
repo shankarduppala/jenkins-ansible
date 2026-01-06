@@ -1,35 +1,36 @@
 pipeline {
-    agent { label 'ansible-node' }
+    agent none  // No default agent; we will assign per stage
 
     environment {
-        ANSIBLE_INVENTORY = /home/ubuntu/ansible/inventory.ini 
-        ANSIBLE_PLAYBOOK = /home/ubuntu/ansible/nginx.yaml
-
+        ANSIBLE_INVENTORY = '/home/ubuntu/ansible/inventory.ini'
+        ANSIBLE_PLAYBOOK = '/home/ubuntu/ansible/nginx.yaml'
     }
 
     stages {
-        stage('checkout SCM') {
+        stage('Checkout SCM') {
+            agent { label 'windows-master' } // runs on Jenkins master (Windows)
             steps {
-                git branch: 'master',
-                url: 'https://github.com/shankarduppala/jenkins-ansible.git'
-                credentialsId: 'Git-Creds'
-
+                git branch: 'main',
+                    url: 'https://github.com/shankarduppala/jenkins-ansible.git',
+                    credentialsId: 'Git-Creds'
             }
         }
 
-        stage('run nginx playbook on node agent') {
+        stage('Run Nginx Playbook on Linux Agent') {
+            agent { label 'ansible-node' } // runs on Ubuntu agent
             steps {
-                sh "ansible-playbook -i %ANSIBLE_INVENTORy %ANSIBLE_PLAYBOOK%"
+                // Run Ansible on the Linux agent
+                sh "ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOK"
             }
         }
     }
+
     post {
         success {
-            echo 'deployed successfuly'
+            echo 'Deployment completed successfully!'
         }
-
         failure {
-            echo 'deployment failed'
+            echo 'Deployment failed!'
         }
     }
 }
