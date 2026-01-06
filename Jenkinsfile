@@ -1,5 +1,5 @@
 pipeline {
-    agent none  // No default agent; we will assign per stage
+    agent { label 'ansible-node' }   // Linux Ubuntu agent
 
     environment {
         ANSIBLE_INVENTORY = '/home/ubuntu/ansible/inventory.ini'
@@ -15,10 +15,8 @@ pipeline {
             }
         }
 
-        stage('Run Nginx Playbook on Linux Agent') {
-            agent { label 'ansible-node' } // runs on Ubuntu agent
+        stage('Run Nginx Playbook') {
             steps {
-                // Run Ansible on the Linux agent
                 sh "ansible-playbook -i $ANSIBLE_INVENTORY $ANSIBLE_PLAYBOOK"
             }
         }
@@ -26,10 +24,10 @@ pipeline {
 
     post {
         success {
-            echo 'Deployment completed successfully!'
+            echo '✅ Deployment completed successfully'
         }
         failure {
-            echo 'Deployment failed!'
+            echo '❌ Deployment failed'
         }
     }
 }
