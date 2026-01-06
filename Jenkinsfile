@@ -2,7 +2,7 @@ pipeline {
     agent { label 'ansible-node' }
 
     environment {
-        ANSIBLE_INVENTORY: /home/ubuntu/ansible/invintory.ini 
+        ANSIBLE_INVENTORY: /home/ubuntu/ansible/inventory.ini 
         ANSIBLE_PLAYBOOK: /home/ubuntu/ansible/nginx.yaml
 
     }
@@ -11,7 +11,7 @@ pipeline {
         stage('checkout SCM') {
             steps {
                 git branch: 'main',
-                url: 
+                url: https://github.com/shankarduppala/jenkins-ansible.git
 
             }
         }
