@@ -2,15 +2,15 @@ pipeline {
     agent { label 'ansible-node' }
 
     environment {
-        ANSIBLE_INVENTORY: /home/ubuntu/ansible/inventory.ini 
-        ANSIBLE_PLAYBOOK: /home/ubuntu/ansible/nginx.yaml
+        ANSIBLE_INVENTORY = /home/ubuntu/ansible/inventory.ini 
+        ANSIBLE_PLAYBOOK = /home/ubuntu/ansible/nginx.yaml
 
     }
 
     stages {
         stage('checkout SCM') {
             steps {
-                git branch: 'main',
+                git branch: 'master',
                 url: 'https://github.com/shankarduppala/jenkins-ansible.git'
                 credentialsId: 'Git-Creds'
 
